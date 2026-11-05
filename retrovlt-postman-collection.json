@@ -1,0 +1,312 @@
+{
+  "info": {
+    "name": "Retro-VLT API (Tienda & Admin)",
+    "_postman_id": "retro-vlt-collection-2026",
+    "description": "Colección completa de endpoints para la tienda y administración de Retro-VLT.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Tienda Pública (/api)",
+      "item": [
+        {
+          "name": "Catálogo - Listar Productos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            }
+          }
+        },
+        {
+          "name": "Catálogo - Buscar Productos por Nombre",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos?buscar=witcher",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"],
+              "query": [{ "key": "buscar", "value": "witcher" }]
+            }
+          }
+        },
+        {
+          "name": "Catálogo - Detalle Producto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Catálogo - Productos en Oferta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/ofertas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "ofertas"]
+            }
+          }
+        },
+        {
+          "name": "Categorías - Listar Categorías",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias"]
+            }
+          }
+        },
+        {
+          "name": "Checkout - Crear Orden (Paso de Pago)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente\": {\n    \"nombre\": \"Pedro\",\n    \"apellidos\": \"Hacker\",\n    \"correo\": \"pedro.hacker20@example.com\"\n  },\n  \"direccion\": {\n    \"calle\": \"Los Crisantemos, Edificio Norte\",\n    \"departamento\": \"Depto 603\",\n    \"region\": \"Región Metropolitana\",\n    \"comuna\": \"Cerrillos\",\n    \"indicaciones\": \"Dejar en conserjería\"\n  },\n  \"items\": [\n    { \"productoId\": 1, \"cantidad\": 1 },\n    { \"productoId\": 2, \"cantidad\": 4 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "checkout"]
+            }
+          }
+        },
+        {
+          "name": "Checkout - Simular Pago Exitoso",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metodoPago\": \"TARJETA_DEBITO\",\n  \"simularError\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout/1/pagar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "checkout", "1", "pagar"]
+            }
+          }
+        },
+        {
+          "name": "Checkout - Simular Pago Fallido (Figura 8)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metodoPago\": \"TARJETA_DEBITO\",\n  \"simularError\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout/1/pagar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "checkout", "1", "pagar"]
+            }
+          }
+        },
+        {
+          "name": "Órdenes - Ver Boleta por Código",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes/%2320240705",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ordenes", "%2320240705"]
+            }
+          }
+        },
+        {
+          "name": "Auth - Iniciar Sesión",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"pedro.hacker20@example.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Auth - Registrar Cliente",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ana\",\n  \"apellidos\": \"Silva\",\n  \"correo\": \"ana.silva@example.com\",\n  \"password\": \"claveSegura123\",\n  \"rol\": \"CLIENTE\",\n  \"telefono\": \"+56987654321\",\n  \"direccionDefecto\": \"Av. Providencia 100\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/registro",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "registro"]
+            }
+          }
+        },
+        {
+          "name": "Blogs - Listar Entradas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/blogs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blogs"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Panel Administrador (/api/admin)",
+      "item": [
+        {
+          "name": "Dashboard - Métricas y KPIs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/metricas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "dashboard", "metricas"]
+            }
+          }
+        },
+        {
+          "name": "Productos - Listar (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "productos"]
+            }
+          }
+        },
+        {
+          "name": "Productos - Crear Nuevo Producto",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Elden Ring\",\n  \"descripcion\": \"Aventura RPG épica de FromSoftware.\",\n  \"precio\": 42990.0,\n  \"stock\": 15,\n  \"stockCritico\": 3,\n  \"esOferta\": false,\n  \"imagenUrl\": \"https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500\",\n  \"categoria\": { \"id\": 1 }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "productos"]
+            }
+          }
+        },
+        {
+          "name": "Productos - Editar Producto",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"The Witcher 3 (GOTY Edition)\",\n  \"descripcion\": \"Edición completa con todas las expansiones.\",\n  \"precio\": 2999.0,\n  \"stock\": 25,\n  \"stockCritico\": 4,\n  \"esOferta\": true,\n  \"precioOferta\": 2490.0,\n  \"imagenUrl\": \"https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500\",\n  \"categoria\": { \"id\": 1 }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/productos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "productos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Productos - Alerta Stock Crítico",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/productos/criticos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "productos", "criticos"]
+            }
+          }
+        },
+        {
+          "name": "Categorías - Crear Nueva",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Periféricos Gamer\",\n  \"descripcion\": \"Teclados mecánicos y mouses para juego competitivo\",\n  \"imagenUrl\": \"https://images.unsplash.com/photo-1527814050087-3793815479db?w=600\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "categorias"]
+            }
+          }
+        },
+        {
+          "name": "Usuarios - Listar Todos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "Usuarios - Historial de Compras por Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/usuarios/2/historial-compras",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "usuarios", "2", "historial-compras"]
+            }
+          }
+        },
+        {
+          "name": "Órdenes - Listar Todas las Boletas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/ordenes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "ordenes"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
