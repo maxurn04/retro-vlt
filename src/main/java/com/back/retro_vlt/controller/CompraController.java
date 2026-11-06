@@ -1,7 +1,7 @@
 package com.back.retro_vlt.controller;
 
-import com.back.retro_vlt.dto.CheckoutRequestDto;
-import com.back.retro_vlt.dto.PagarRequestDto;
+import com.back.retro_vlt.dto.CompraDto;
+import com.back.retro_vlt.dto.PagoDto;
 import com.back.retro_vlt.model.Orden;
 import com.back.retro_vlt.service.OrdenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,16 +16,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name = "Tienda - Carrito & Checkout", description = "Endpoints para el flujo de compra, despacho y simulación de pago")
-public class CheckoutController {
+@Tag(name = "Tienda - Carrito & Compra", description = "Endpoints para el flujo de compra, despacho y simulacion de pago")
+public class CompraController {
 
     @Autowired
     private OrdenService ordenService;
 
-    @PostMapping("/checkout")
-    @Operation(summary = "Crear orden de compra (checkout) a partir del carrito y datos de entrega")
-    public ResponseEntity<?> crearCheckout(@RequestBody CheckoutRequestDto dto) {
-        Orden orden = ordenService.crearCheckout(dto);
+    @PostMapping({"/compra", "/checkout"})
+    @Operation(summary = "Crear orden de compra a partir del carrito y datos de entrega")
+    public ResponseEntity<?> procesarCompra(@RequestBody CompraDto dto) {
+        Orden orden = ordenService.procesarCompra(dto);
         if (orden == null) {
             return ResponseEntity.badRequest().body(Map.of("error", "No se pudo registrar la orden. Verifique los productos y datos ingresados."));
         }
@@ -35,15 +35,15 @@ public class CheckoutController {
         resp.put("total", orden.getTotal());
         resp.put("estado", orden.getEstado());
         resp.put("metodoPago", orden.getMetodoPago());
-        resp.put("mensaje", "Orden registrada con éxito. Lista para procesar pago.");
+        resp.put("mensaje", "Orden registrada con exito. Lista para procesar pago.");
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 
-    @PostMapping("/checkout/{ordenId}/pagar")
-    @Operation(summary = "Procesar y simular pago de la orden (éxito o rechazo)")
-    public ResponseEntity<?> procesarPago(@PathVariable Long ordenId, @RequestBody(required = false) PagarRequestDto dto) {
+    @PostMapping({"/compra/{ordenId}/pagar", "/checkout/{ordenId}/pagar"})
+    @Operation(summary = "Procesar y simular pago de la orden (exito o rechazo)")
+    public ResponseEntity<?> procesarPago(@PathVariable Long ordenId, @RequestBody(required = false) PagoDto dto) {
         if (dto == null) {
-            dto = new PagarRequestDto();
+            dto = new PagoDto();
         }
         Orden orden = ordenService.procesarPago(ordenId, dto);
         if (orden == null) {
@@ -55,7 +55,7 @@ public class CheckoutController {
             err.put("exito", false);
             err.put("numeroOrden", orden.getNumeroOrden());
             err.put("estado", orden.getEstado());
-            err.put("motivo", "Fondos insuficientes o transacción rechazada por el banco.");
+            err.put("motivo", "Fondos insuficientes o transaccion rechazada por el banco.");
             err.put("accion", "VOLVER A REALIZAR EL PAGO");
             return ResponseEntity.badRequest().body(err);
         }
@@ -67,12 +67,12 @@ public class CheckoutController {
         exito.put("totalPagado", orden.getTotal());
         exito.put("fecha", orden.getFecha());
         exito.put("metodoPago", orden.getMetodoPago());
-        exito.put("mensaje", "Pago completado con éxito. Se ha generado su boleta.");
+        exito.put("mensaje", "Pago completado con exito. Se ha generado su boleta.");
         return ResponseEntity.ok(exito);
     }
 
-    @GetMapping("/ordenes/{numeroOrden}")
-    @Operation(summary = "Obtener el resumen de la boleta por su número de orden (#20240705)")
+    @GetMapping({"/ordenes/{numeroOrden}", "/boletas/{numeroOrden}"})
+    @Operation(summary = "Obtener el resumen de la boleta por su numero de orden (#20240705)")
     public ResponseEntity<?> obtenerBoleta(@PathVariable String numeroOrden) {
         Orden orden = ordenService.obtenerPorNumeroOrden(numeroOrden);
         if (orden == null) {

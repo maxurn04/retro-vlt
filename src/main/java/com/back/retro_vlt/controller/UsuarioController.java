@@ -1,6 +1,6 @@
 package com.back.retro_vlt.controller;
 
-import com.back.retro_vlt.dto.LoginRequestDto;
+import com.back.retro_vlt.dto.LoginDto;
 import com.back.retro_vlt.model.Usuario;
 import com.back.retro_vlt.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,7 @@ public class UsuarioController {
 
     @PostMapping("/login")
     @Operation(summary = "Iniciar sesión con correo y contraseña")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto dto) {
+    public ResponseEntity<?> login(@RequestBody LoginDto dto) {
         if (dto == null) {
             return ResponseEntity.badRequest().body(Map.of("error", "Datos de acceso requeridos"));
         }

@@ -4,11 +4,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CheckoutRequestDto {
+public class CompraDto {
 
     private ClienteDto cliente;
     private DireccionDto direccion;
-    private List<ItemCheckoutDto> items;
+    private List<ItemCompraDto> items;
     private String metodoPago;
 
     @Data
@@ -29,7 +29,7 @@ public class CheckoutRequestDto {
     }
 
     @Data
-    public static class ItemCheckoutDto {
+    public static class ItemCompraDto {
         private Long productoId;
         private Integer cantidad;
     }

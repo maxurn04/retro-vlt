@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI customOpenAPI() {
+    public OpenAPI configuracionOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
                         .title("API REST Tienda Retro-VLT")

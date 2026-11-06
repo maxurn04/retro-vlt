@@ -1,7 +1,7 @@
 package com.back.retro_vlt.service;
 
-import com.back.retro_vlt.dto.CheckoutRequestDto;
-import com.back.retro_vlt.dto.PagarRequestDto;
+import com.back.retro_vlt.dto.CompraDto;
+import com.back.retro_vlt.dto.PagoDto;
 import com.back.retro_vlt.model.DetalleOrden;
 import com.back.retro_vlt.model.Orden;
 import com.back.retro_vlt.model.Producto;
@@ -32,7 +32,7 @@ public class OrdenService {
     private UsuarioRepository usuarioRepository;
 
     @Transactional
-    public Orden crearCheckout(CheckoutRequestDto dto) {
+    public Orden procesarCompra(CompraDto dto) {
         if (dto == null) {
             return null;
         }
@@ -66,7 +66,7 @@ public class OrdenService {
         List<DetalleOrden> detalles = new ArrayList<>();
 
         if (dto.getItems() != null) {
-            for (CheckoutRequestDto.ItemCheckoutDto itemDto : dto.getItems()) {
+            for (CompraDto.ItemCompraDto itemDto : dto.getItems()) {
                 if (itemDto == null || itemDto.getProductoId() == null) {
                     continue;
                 }
@@ -101,7 +101,12 @@ public class OrdenService {
     }
 
     @Transactional
-    public Orden procesarPago(Long ordenId, PagarRequestDto dto) {
+    public Orden crearCheckout(CompraDto dto) {
+        return procesarCompra(dto);
+    }
+
+    @Transactional
+    public Orden procesarPago(Long ordenId, PagoDto dto) {
         Orden orden = ordenRepository.findById(ordenId).orElse(null);
         if (orden == null) {
             return null;
