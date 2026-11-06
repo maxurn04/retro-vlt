@@ -49,7 +49,6 @@ public class Usuario {
     @Column(name = "direccion_defecto", length = 255)
     private String direccionDefecto;
 
-    // Métodos de conveniencia para compatibilidad directa con el frontend React
     public String getContra() {
         return password;
     }

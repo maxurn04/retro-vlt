@@ -53,7 +53,6 @@ public class Producto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    // Métodos de conveniencia para compatibilidad directa con el frontend React
     public String getImg() {
         return imagenUrl;
     }

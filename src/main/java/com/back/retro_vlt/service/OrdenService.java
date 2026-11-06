@@ -41,12 +41,10 @@ public class OrdenService {
         orden.setFecha(LocalDateTime.now());
         orden.setEstado("PENDIENTE_PAGO");
 
-        // Generar número de orden único (Ej: #20240705 o #YYYYMMDD-XXXX)
         String fechaCodigo = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         int aleatorio = 1000 + new Random().nextInt(9000);
         orden.setNumeroOrden("#" + fechaCodigo + "-" + aleatorio);
 
-        // Cliente y Dirección
         if (dto.getCliente() != null && dto.getCliente().getUsuarioId() != null) {
             Usuario user = usuarioRepository.findById(dto.getCliente().getUsuarioId()).orElse(null);
             orden.setUsuario(user);
@@ -64,7 +62,6 @@ public class OrdenService {
             orden.setMetodoPago(dto.getMetodoPago());
         }
 
-        // Ítems y cálculo del total
         Double total = 0.0;
         List<DetalleOrden> detalles = new ArrayList<>();
 
@@ -122,7 +119,6 @@ public class OrdenService {
             orden.setMetodoPago(dto.getMetodoPago());
         }
 
-        // Si el pago es exitoso, descontar stock de productos
         if (orden.getDetalles() != null) {
             for (DetalleOrden det : orden.getDetalles()) {
                 Producto p = det.getProducto();
