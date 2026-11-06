@@ -151,9 +151,9 @@ Hemos incluido el archivo **`retrovlt-postman-collection.json`** en la raíz del
 ```json
 {
   "cliente": {
-    "nombre": "Pedro",
-    "apellidos": "Hacker",
-    "correo": "pedro.hacker20@example.com"
+    "nombre": "Carlos",
+    "apellidos": "Mendoza",
+    "correo": "carlos.mendoza@gmail.com"
   },
   "direccion": {
     "calle": "Los Crisantemos, Edificio Norte",
@@ -233,20 +233,20 @@ Hemos incluido el archivo **`retrovlt-postman-collection.json`** en la raíz del
 * **Request Body (JSON):**
 ```json
 {
-  "correo": "pedro.hacker20@example.com",
+  "correo": "carlos.mendoza@gmail.com",
   "password": "123456"
 }
 ```
 * **Respuesta Exitosa (`200 OK`):**
 ```json
 {
-  "id": 2,
-  "nombre": "Pedro",
-  "apellidos": "Hacker",
-  "correo": "pedro.hacker20@example.com",
+  "id": 3,
+  "nombre": "Carlos",
+  "apellidos": "Mendoza",
+  "correo": "carlos.mendoza@gmail.com",
   "rol": "CLIENTE",
-  "direccionDefecto": "Los Crisantemos, Edificio Norte, Depto 603, Cerrillos",
-  "telefono": "+56999887766"
+  "direccionDefecto": "Av. Los Leones 1234, Depto 402, Providencia",
+  "telefono": "+56987654321"
 }
 ```
 

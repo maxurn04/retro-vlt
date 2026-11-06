@@ -84,7 +84,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"cliente\": {\n    \"nombre\": \"Pedro\",\n    \"apellidos\": \"Hacker\",\n    \"correo\": \"pedro.hacker20@example.com\"\n  },\n  \"direccion\": {\n    \"calle\": \"Los Crisantemos, Edificio Norte\",\n    \"departamento\": \"Depto 603\",\n    \"region\": \"Región Metropolitana\",\n    \"comuna\": \"Cerrillos\",\n    \"indicaciones\": \"Dejar en conserjería\"\n  },\n  \"items\": [\n    { \"productoId\": 1, \"cantidad\": 1 },\n    { \"productoId\": 2, \"cantidad\": 4 }\n  ]\n}"
+              "raw": "{\n  \"cliente\": {\n    \"nombre\": \"Carlos\",\n    \"apellidos\": \"Mendoza\",\n    \"correo\": \"carlos.mendoza@gmail.com\"\n  },\n  \"direccion\": {\n    \"calle\": \"Av. Los Leones 1234\",\n    \"departamento\": \"Depto 402\",\n    \"region\": \"Región Metropolitana\",\n    \"comuna\": \"Providencia\",\n    \"indicaciones\": \"Dejar en conserjería\"\n  },\n  \"items\": [\n    { \"productoId\": 1, \"cantidad\": 1 },\n    { \"productoId\": 2, \"cantidad\": 4 }\n  ]\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/checkout",
@@ -144,7 +144,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"correo\": \"pedro.hacker20@example.com\",\n  \"password\": \"123456\"\n}"
+              "raw": "{\n  \"correo\": \"carlos.mendoza@gmail.com\",\n  \"password\": \"123456\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/login",
