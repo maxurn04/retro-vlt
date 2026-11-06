@@ -32,6 +32,18 @@ public class ProductoService {
         return productoRepository.findById(id).orElse(null);
     }
 
+    public List<Producto> obtenerRelacionados(Long id) {
+        Producto actual = obtenerPorId(id);
+        if (actual != null && actual.getCategoria() != null && actual.getCategoria().getId() != null) {
+            List<Producto> lista = productoRepository.findByCategoriaId(actual.getCategoria().getId());
+            return lista.stream()
+                    .filter(p -> !p.getId().equals(id))
+                    .limit(4)
+                    .toList();
+        }
+        return List.of();
+    }
+
     public List<Producto> obtenerOfertas() {
         return productoRepository.findByEsOfertaTrue();
     }
@@ -59,6 +71,15 @@ public class ProductoService {
             existente.setEsOferta(producto.getEsOferta() != null ? producto.getEsOferta() : false);
             existente.setPrecioOferta(producto.getPrecioOferta());
             existente.setImagenUrl(producto.getImagenUrl());
+            if (producto.getCodigo() != null) {
+                existente.setCodigo(producto.getCodigo());
+            }
+            if (producto.getImg2() != null) {
+                existente.setImg2(producto.getImg2());
+            }
+            if (producto.getImg3() != null) {
+                existente.setImg3(producto.getImg3());
+            }
 
             if (producto.getCategoria() != null && producto.getCategoria().getId() != null) {
                 Categoria cat = categoriaRepository.findById(producto.getCategoria().getId()).orElse(null);

@@ -52,6 +52,18 @@ public class UsuarioService {
             existente.setApellidos(usuario.getApellidos());
             existente.setTelefono(usuario.getTelefono());
             existente.setDireccionDefecto(usuario.getDireccionDefecto());
+            if (usuario.getRun() != null) {
+                existente.setRun(usuario.getRun());
+            }
+            if (usuario.getFechaNacimiento() != null) {
+                existente.setFechaNacimiento(usuario.getFechaNacimiento());
+            }
+            if (usuario.getRegion() != null) {
+                existente.setRegion(usuario.getRegion());
+            }
+            if (usuario.getComuna() != null) {
+                existente.setComuna(usuario.getComuna());
+            }
             if (usuario.getRol() != null && !usuario.getRol().isBlank()) {
                 existente.setRol(usuario.getRol());
             }

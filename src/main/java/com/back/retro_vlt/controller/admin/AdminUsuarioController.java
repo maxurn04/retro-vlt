@@ -72,7 +72,7 @@ public class AdminUsuarioController {
         return ResponseEntity.ok(Map.of("exito", true, "mensaje", "Usuario eliminado con éxito"));
     }
 
-    @GetMapping("/{id}/historial-compras")
+    @GetMapping(value = {"/{id}/historial-compras", "/{id}/compras"})
     @Operation(summary = "Obtener historial de compras de un usuario específico")
     public ResponseEntity<List<Orden>> historialCompras(@PathVariable Long id) {
         return ResponseEntity.ok(ordenService.obtenerPorUsuario(id));

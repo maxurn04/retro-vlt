@@ -34,6 +34,7 @@ public class CheckoutController {
         resp.put("numeroOrden", orden.getNumeroOrden());
         resp.put("total", orden.getTotal());
         resp.put("estado", orden.getEstado());
+        resp.put("metodoPago", orden.getMetodoPago());
         resp.put("mensaje", "Orden registrada con éxito. Lista para procesar pago.");
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
@@ -65,6 +66,7 @@ public class CheckoutController {
         exito.put("estado", orden.getEstado());
         exito.put("totalPagado", orden.getTotal());
         exito.put("fecha", orden.getFecha());
+        exito.put("metodoPago", orden.getMetodoPago());
         exito.put("mensaje", "Pago completado con éxito. Se ha generado su boleta.");
         return ResponseEntity.ok(exito);
     }

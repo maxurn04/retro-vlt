@@ -43,8 +43,18 @@ public class AdminCategoriaController {
         return ResponseEntity.ok(c);
     }
 
+    @GetMapping("/nombre/{nombre}")
+    @Operation(summary = "Mostrar una categoría por su nombre")
+    public ResponseEntity<Categoria> obtenerPorNombre(@PathVariable String nombre) {
+        Categoria c = categoriaService.obtenerPorNombre(nombre);
+        if (c == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(c);
+    }
+
     @PutMapping("/{id}")
-    @Operation(summary = "Editar categoría existente (UPDATE)")
+    @Operation(summary = "Editar categoría existente por ID (UPDATE)")
     public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
         Categoria actualizada = categoriaService.actualizar(id, categoria);
         if (actualizada == null) {
@@ -53,14 +63,34 @@ public class AdminCategoriaController {
         return ResponseEntity.ok(actualizada);
     }
 
+    @PutMapping("/nombre/{nombre}")
+    @Operation(summary = "Editar categoría existente por nombre (UPDATE)")
+    public ResponseEntity<?> actualizarPorNombre(@PathVariable String nombre, @RequestBody Categoria categoria) {
+        Categoria actualizada = categoriaService.actualizarPorNombre(nombre, categoria);
+        if (actualizada == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(actualizada);
+    }
+
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar categoría (DELETE)")
+    @Operation(summary = "Eliminar categoría por ID (DELETE)")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         Categoria c = categoriaService.obtenerPorId(id);
         if (c == null) {
             return ResponseEntity.notFound().build();
         }
         categoriaService.eliminar(id);
+        return ResponseEntity.ok(Map.of("exito", true, "mensaje", "Categoría eliminada con éxito"));
+    }
+
+    @DeleteMapping("/nombre/{nombre}")
+    @Operation(summary = "Eliminar categoría por nombre (DELETE)")
+    public ResponseEntity<?> eliminarPorNombre(@PathVariable String nombre) {
+        boolean ok = categoriaService.eliminarPorNombre(nombre);
+        if (!ok) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(Map.of("exito", true, "mensaje", "Categoría eliminada con éxito"));
     }
 }

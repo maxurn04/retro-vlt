@@ -60,6 +60,10 @@ public class OrdenService {
             orden.setIndicaciones(dto.getDireccion().getIndicaciones());
         }
 
+        if (dto.getMetodoPago() != null && !dto.getMetodoPago().isBlank()) {
+            orden.setMetodoPago(dto.getMetodoPago());
+        }
+
         // Ítems y cálculo del total
         Double total = 0.0;
         List<DetalleOrden> detalles = new ArrayList<>();
@@ -108,7 +112,14 @@ public class OrdenService {
 
         if (dto != null && Boolean.TRUE.equals(dto.getSimularError())) {
             orden.setEstado("FALLIDO");
+            if (dto.getMetodoPago() != null) {
+                orden.setMetodoPago(dto.getMetodoPago());
+            }
             return ordenRepository.save(orden);
+        }
+
+        if (dto != null && dto.getMetodoPago() != null && !dto.getMetodoPago().isBlank()) {
+            orden.setMetodoPago(dto.getMetodoPago());
         }
 
         // Si el pago es exitoso, descontar stock de productos
@@ -128,7 +139,19 @@ public class OrdenService {
     }
 
     public Orden obtenerPorNumeroOrden(String numeroOrden) {
-        return ordenRepository.findByNumeroOrden(numeroOrden);
+        if (numeroOrden == null) {
+            return null;
+        }
+        String limpio = numeroOrden.trim();
+        Orden o = ordenRepository.findByNumeroOrden(limpio);
+        if (o == null) {
+            if (limpio.startsWith("#")) {
+                o = ordenRepository.findByNumeroOrden(limpio.substring(1));
+            } else {
+                o = ordenRepository.findByNumeroOrden("#" + limpio);
+            }
+        }
+        return o;
     }
 
     public Orden obtenerPorId(Long id) {
@@ -141,5 +164,58 @@ public class OrdenService {
 
     public List<Orden> obtenerPorUsuario(Long usuarioId) {
         return ordenRepository.findByUsuarioIdOrderByFechaDesc(usuarioId);
+    }
+
+    @Transactional
+    public boolean eliminar(Long id) {
+        Orden o = obtenerPorId(id);
+        if (o != null) {
+            ordenRepository.delete(o);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean eliminarPorNumero(String numeroOrden) {
+        Orden o = obtenerPorNumeroOrden(numeroOrden);
+        if (o != null) {
+            ordenRepository.delete(o);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public Orden actualizar(Long id, Orden datosNuevos) {
+        Orden orden = obtenerPorId(id);
+        if (orden == null) {
+            return null;
+        }
+        if (datosNuevos.getEstado() != null) {
+            orden.setEstado(datosNuevos.getEstado());
+        }
+        if (datosNuevos.getMetodoPago() != null) {
+            orden.setMetodoPago(datosNuevos.getMetodoPago());
+        }
+        if (datosNuevos.getTotal() != null) {
+            orden.setTotal(datosNuevos.getTotal());
+        }
+        if (datosNuevos.getCalle() != null) {
+            orden.setCalle(datosNuevos.getCalle());
+        }
+        if (datosNuevos.getDepartamento() != null) {
+            orden.setDepartamento(datosNuevos.getDepartamento());
+        }
+        if (datosNuevos.getRegion() != null) {
+            orden.setRegion(datosNuevos.getRegion());
+        }
+        if (datosNuevos.getComuna() != null) {
+            orden.setComuna(datosNuevos.getComuna());
+        }
+        if (datosNuevos.getIndicaciones() != null) {
+            orden.setIndicaciones(datosNuevos.getIndicaciones());
+        }
+        return ordenRepository.save(orden);
     }
 }

@@ -9,6 +9,7 @@ public class CheckoutRequestDto {
     private ClienteDto cliente;
     private DireccionDto direccion;
     private List<ItemCheckoutDto> items;
+    private String metodoPago;
 
     @Data
     public static class ClienteDto {

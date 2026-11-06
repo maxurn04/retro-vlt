@@ -47,4 +47,10 @@ public class ProductoController {
     public ResponseEntity<List<Producto>> listarPorCategoria(@PathVariable Long categoriaId) {
         return ResponseEntity.ok(productoService.obtenerTodos(null, categoriaId));
     }
+
+    @GetMapping("/{id}/relacionados")
+    @Operation(summary = "Obtener productos relacionados (misma categoría)")
+    public ResponseEntity<List<Producto>> listarRelacionados(@PathVariable Long id) {
+        return ResponseEntity.ok(productoService.obtenerRelacionados(id));
+    }
 }

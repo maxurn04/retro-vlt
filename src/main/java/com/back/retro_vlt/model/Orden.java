@@ -32,6 +32,9 @@ public class Orden {
     @Column(nullable = false, length = 20)
     private String estado = "PENDIENTE_PAGO";
 
+    @Column(name = "metodo_pago", length = 50)
+    private String metodoPago;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
