@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Documentacion y guias locales ###
+guias/
+docs/
