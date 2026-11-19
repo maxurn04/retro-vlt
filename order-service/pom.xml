@@ -15,6 +15,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.back</groupId>
+			<artifactId>common-service</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.back</groupId>
 			<artifactId>auth-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
