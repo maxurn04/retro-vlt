@@ -3,6 +3,10 @@ package com.back.retro_vlt.contact.controller;
 import com.back.retro_vlt.contact.dto.ContactoDto;
 import com.back.retro_vlt.contact.dto.ContactoResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,12 +23,52 @@ import java.util.Map;
 public class ContactoController {
 
     @PostMapping
-    @Operation(summary = "Enviar mensaje o consulta de contacto")
+    @Operation(
+        summary = "Enviar mensaje o consulta de contacto",
+        description = "Permite a los usuarios enviar un mensaje, consulta sobre stock o comentario general al equipo de Retro VLT mediante el formulario de contacto.",
+        requestBody = @RequestBody(
+            description = "Datos del formulario de contacto (nombre, correo y mensaje son obligatorios)",
+            required = true,
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ContactoDto.class),
+                examples = @ExampleObject(
+                    name = "EjemploContacto",
+                    summary = "Ejemplo funcional de consulta de stock",
+                    description = "Datos de prueba listos para Try it out",
+                    value = "{\n  \"nombre\": \"Juan Perez\",\n  \"correo\": \"juan.perez@duoc.cl\",\n  \"mensaje\": \"Consulta sobre stock de consolas retro\"\n}"
+                )
+            )
+        )
+    )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Mensaje enviado exitosamente"),
-        @ApiResponse(responseCode = "400", description = "Datos de contacto inválidos o incompletos")
+        @ApiResponse(
+            responseCode = "200",
+            description = "Mensaje enviado exitosamente",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ContactoResponseDto.class),
+                examples = @ExampleObject(
+                    name = "RespuestaExitosa",
+                    summary = "Ejemplo de confirmación de envío",
+                    value = "{\n  \"exito\": true,\n  \"mensaje\": \"Mensaje recibido correctamente. Nos pondremos en contacto contigo a la brevedad.\"\n}"
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Datos de contacto inválidos o incompletos",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(
+                    name = "ErrorValidacion",
+                    summary = "Ejemplo de error por datos incompletos",
+                    value = "{\n  \"error\": \"Todos los campos (nombre, correo y mensaje) son requeridos\"\n}"
+                )
+            )
+        )
     })
-    public ResponseEntity<?> enviarMensaje(@Valid @RequestBody(required = false) ContactoDto request) {
+    public ResponseEntity<?> enviarMensaje(@Valid @org.springframework.web.bind.annotation.RequestBody(required = false) ContactoDto request) {
         if (request == null ||
             request.getNombre() == null || request.getNombre().isBlank() ||
             request.getCorreo() == null || request.getCorreo().isBlank() ||

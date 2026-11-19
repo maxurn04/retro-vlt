@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Respuesta del formulario de contacto")
+@Schema(
+    description = "Respuesta del formulario de contacto tras procesar la solicitud",
+    example = "{\"exito\": true, \"mensaje\": \"Mensaje recibido correctamente. Nos pondremos en contacto contigo a la brevedad.\"}"
+)
 public class ContactoResponseDto {
 
     @Schema(description = "Indica si el envío fue exitoso", example = "true")
