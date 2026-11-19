@@ -1,4 +1,5 @@
 @echo off
+cd /d "%~dp0"
 title Iniciando Microservicios Retro-VLT
 echo ============================================================
 echo   Iniciando Arquitectura de Microservicios Retro-VLT
@@ -9,19 +10,19 @@ echo La base de datos 'tienda_db' y las tablas se crearan solas.
 echo.
 
 echo Levantando 1/5: Auth Service (Puerto 8081)...
-start "Auth Service (8081)" cmd /c "mvnw.cmd spring-boot:run -pl auth-service"
+start "Auth Service (8081)" cmd /k "mvnw.cmd spring-boot:run -pl ms-autenticacion"
 
 echo Levantando 2/5: Catalog Service (Puerto 8082)...
-start "Catalog Service (8082)" cmd /c "mvnw.cmd spring-boot:run -pl catalog-service"
+start "Catalog Service (8082)" cmd /k "mvnw.cmd spring-boot:run -pl ms-catalogo"
 
 echo Levantando 3/5: Order Service (Puerto 8083)...
-start "Order Service (8083)" cmd /c "mvnw.cmd spring-boot:run -pl order-service"
+start "Order Service (8083)" cmd /k "mvnw.cmd spring-boot:run -pl ms-ordenes"
 
 echo Levantando 4/5: Admin Service (Puerto 8084)...
-start "Admin Service (8084)" cmd /c "mvnw.cmd spring-boot:run -pl admin-service"
+start "Admin Service (8084)" cmd /k "mvnw.cmd spring-boot:run -pl ms-administracion"
 
 echo Levantando 5/5: Contact Service (Puerto 8085)...
-start "Contact Service (8085)" cmd /c "mvnw.cmd spring-boot:run -pl contact-service"
+start "Contact Service (8085)" cmd /k "mvnw.cmd spring-boot:run -pl ms-contacto"
 
 echo.
 echo ============================================================

@@ -16,12 +16,11 @@ Backend de comercio electrónico desarrollado con **Spring Boot**, **Java 21**, 
 
 | Microservicio | Puerto | Descripción | Documentación Swagger UI |
 |---|---|---|---|
-| **`common-service`** | N/A | Modelos compartidos JPA, migraciones SQL de Flyway y utilidades comunes. | N/A (Módulo librería) |
-| **`auth-service`** | `8081` | Registro, autenticación, login Google OAuth2 y generación de tokens JWT. | [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html) |
-| **`catalog-service`** | `8082` | Catálogo de productos, categorías y artículos de blog de la tienda. | [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html) |
-| **`order-service`** | `8083` | Procesamiento de compras, pasarela de pagos simulada y consulta de boletas. | [http://localhost:8083/swagger-ui.html](http://localhost:8083/swagger-ui.html) |
-| **`admin-service`** | `8084` | Panel de administración, dashboard con métricas y gestión de productos. | [http://localhost:8084/swagger-ui.html](http://localhost:8084/swagger-ui.html) |
-| **`contact-service`** | `8085` | Recepción y validación de mensajes del formulario de contacto (stateless). | [http://localhost:8085/swagger-ui.html](http://localhost:8085/swagger-ui.html) |
+| **`ms-autenticacion`** | `8081` | Registro, autenticación, login Google OAuth2 y generación de tokens JWT. | [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html) |
+| **`ms-catalogo`** | `8082` | Catálogo de productos, categorías y artículos de blog de la tienda. | [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html) |
+| **`ms-ordenes`** | `8083` | Procesamiento de compras, pasarela de pagos simulada y consulta de boletas. | [http://localhost:8083/swagger-ui.html](http://localhost:8083/swagger-ui.html) |
+| **`ms-administracion`** | `8084` | Panel de administración, dashboard con métricas y gestión de productos. | [http://localhost:8084/swagger-ui.html](http://localhost:8084/swagger-ui.html) |
+| **`ms-contacto`** | `8085` | Recepción y validación de mensajes del formulario de contacto (stateless). | [http://localhost:8085/swagger-ui.html](http://localhost:8085/swagger-ui.html) |
 
 ---
 
@@ -56,7 +55,7 @@ Abra el **XAMPP Control Panel** y haga clic en **Start** en el módulo **MySQL**
 Si utiliza Visual Studio Code con la extensión **Spring Boot Dashboard** (`vscjava.vscode-spring-boot-dashboard`):
 
 1. Abra la pestaña **Spring Boot Dashboard** en la barra lateral izquierda (ícono de hoja verde 🍃).
-2. Verá listados los 5 microservicios (`auth-service`, `catalog-service`, `order-service`, `admin-service`, `contact-service`).
+2. Verá listados los 5 microservicios (`ms-autenticacion`, `ms-catalogo`, `ms-ordenes`, `ms-administracion`, `ms-contacto`).
 3. Puede hacer clic en el botón **Play ▶️** de cada servicio o en la parte superior para levantarlos.
 4. **O alternativamente**: Vaya al menú **Ejecutar y depurar** (`Ctrl + Shift + D` o `F5`) y seleccione:
    `🚀 Iniciar Todos los Microservicios (Spring Boot Manager)`. Esto iniciará todos los microservicios simultáneamente.
@@ -79,19 +78,19 @@ Esto abrirá terminales independientes levantando cada uno de los microservicios
 
 ```bash
 # Terminal 1 - Autenticación y JWT (Puerto 8081)
-./mvnw spring-boot:run -pl auth-service
+./mvnw spring-boot:run -pl ms-autenticacion
 
 # Terminal 2 - Catálogo y Blogs (Puerto 8082)
-./mvnw spring-boot:run -pl catalog-service
+./mvnw spring-boot:run -pl ms-catalogo
 
 # Terminal 3 - Órdenes y Pagos (Puerto 8083)
-./mvnw spring-boot:run -pl order-service
+./mvnw spring-boot:run -pl ms-ordenes
 
 # Terminal 4 - Administración y Métricas (Puerto 8084)
-./mvnw spring-boot:run -pl admin-service
+./mvnw spring-boot:run -pl ms-administracion
 
 # Terminal 5 - Contacto (Puerto 8085)
-./mvnw spring-boot:run -pl contact-service
+./mvnw spring-boot:run -pl ms-contacto
 ```
 *(En Windows reemplace `./mvnw` por `.\mvnw.cmd`)*
 

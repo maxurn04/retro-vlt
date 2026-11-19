@@ -17,16 +17,16 @@ Write-Host ""
 Write-Host "Levantando microservicios..." -ForegroundColor Cyan
 
 $services = @(
-    @{ Name = "Auth Service"; Module = "auth-service"; Port = 8081 },
-    @{ Name = "Catalog Service"; Module = "catalog-service"; Port = 8082 },
-    @{ Name = "Order Service"; Module = "order-service"; Port = 8083 },
-    @{ Name = "Admin Service"; Module = "admin-service"; Port = 8084 },
-    @{ Name = "Contact Service"; Module = "contact-service"; Port = 8085 }
+    @{ Name = "Auth Service"; Module = "ms-autenticacion"; Port = 8081 },
+    @{ Name = "Catalog Service"; Module = "ms-catalogo"; Port = 8082 },
+    @{ Name = "Order Service"; Module = "ms-ordenes"; Port = 8083 },
+    @{ Name = "Admin Service"; Module = "ms-administracion"; Port = 8084 },
+    @{ Name = "Contact Service"; Module = "ms-contacto"; Port = 8085 }
 )
 
 foreach ($s in $services) {
     Write-Host " -> Iniciando $($s.Name) en puerto $($s.Port)..." -ForegroundColor Green
-    Start-Process powershell -ArgumentList "-NoExit", "-Command", "Write-Host 'Iniciando $($s.Name)...' -ForegroundColor Cyan; .\mvnw.cmd spring-boot:run -pl $($s.Module)"
+    Start-Process powershell -WorkingDirectory $PSScriptRoot -ArgumentList "-NoExit", "-Command", "Write-Host 'Iniciando $($s.Name)...' -ForegroundColor Cyan; .\mvnw.cmd spring-boot:run -pl $($s.Module)"
 }
 
 Write-Host ""

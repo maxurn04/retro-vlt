@@ -6,35 +6,35 @@
             "name": "Spring Boot - Auth Service (8081)",
             "request": "launch",
             "mainClass": "com.back.retro_vlt.AuthServiceApplication",
-            "projectName": "auth-service"
+            "projectName": "ms-autenticacion"
         },
         {
             "type": "java",
             "name": "Spring Boot - Catalog Service (8082)",
             "request": "launch",
             "mainClass": "com.back.retro_vlt.CatalogServiceApplication",
-            "projectName": "catalog-service"
+            "projectName": "ms-catalogo"
         },
         {
             "type": "java",
             "name": "Spring Boot - Order Service (8083)",
             "request": "launch",
             "mainClass": "com.back.retro_vlt.OrderServiceApplication",
-            "projectName": "order-service"
+            "projectName": "ms-ordenes"
         },
         {
             "type": "java",
             "name": "Spring Boot - Admin Service (8084)",
             "request": "launch",
             "mainClass": "com.back.retro_vlt.AdminServiceApplication",
-            "projectName": "admin-service"
+            "projectName": "ms-administracion"
         },
         {
             "type": "java",
             "name": "Spring Boot - Contact Service (8085)",
             "request": "launch",
             "mainClass": "com.back.retro_vlt.contact.ContactServiceApplication",
-            "projectName": "contact-service"
+            "projectName": "ms-contacto"
         }
     ],
     "compounds": [

@@ -35,32 +35,27 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.back</groupId>
-				<artifactId>common-service</artifactId>
+				<artifactId>ms-catalogo</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.back</groupId>
-				<artifactId>catalog-service</artifactId>
+				<artifactId>ms-autenticacion</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.back</groupId>
-				<artifactId>auth-service</artifactId>
+				<artifactId>ms-ordenes</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.back</groupId>
-				<artifactId>order-service</artifactId>
+				<artifactId>ms-administracion</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.back</groupId>
-				<artifactId>admin-service</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.back</groupId>
-				<artifactId>contact-service</artifactId>
+				<artifactId>ms-contacto</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
@@ -121,12 +116,11 @@
 	</dependencies>
 
     <modules>
-        <module>common-service</module>
-        <module>auth-service</module>
-        <module>catalog-service</module>
-        <module>order-service</module>
-        <module>admin-service</module>
-        <module>contact-service</module>
+        <module>ms-autenticacion</module>
+        <module>ms-catalogo</module>
+        <module>ms-ordenes</module>
+        <module>ms-administracion</module>
+        <module>ms-contacto</module>
     </modules>
 
 	<build>
