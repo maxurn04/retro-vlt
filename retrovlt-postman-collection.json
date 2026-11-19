@@ -144,12 +144,56 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"correo\": \"carlos.mendoza@gmail.com\",\n  \"password\": \"123456\"\n}"
+              "raw": "{\n  \"correo\": \"admin@tienda.cl\",\n  \"password\": \"admin123\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/login",
               "host": ["{{baseUrl}}"],
               "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Auth - Iniciar Sesión con Google (Google Cloud)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"usuario.google@gmail.com\",\n  \"nombre\": \"Maximiliano Google\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/google",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "google"]
+            }
+          }
+        },
+        {
+          "name": "Auth - Validar Sesión (JWT)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/validar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "validar"]
+            }
+          }
+        },
+        {
+          "name": "Tienda - Enviar Mensaje Contacto",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Juan Pérez\",\n  \"correo\": \"juan@gmail.com\",\n  \"mensaje\": \"Consulta sobre disponibilidad de Nintendo 64\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/contacto",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contacto"]
             }
           }
         },

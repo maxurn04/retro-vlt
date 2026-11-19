@@ -35,3 +35,6 @@ build/
 ### Documentacion y guias locales ###
 guias/
 docs/
+
+### Repositorio frontend clonado localmente ###
+frontend/
