@@ -2,6 +2,7 @@ package com.back.retro_vlt.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,7 @@ public class Usuario {
 
     @Column(nullable = false, length = 255)
     @Schema(description = "Contraseña en texto plano o hash para autenticación", example = "123456", requiredMode = Schema.RequiredMode.REQUIRED)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(nullable = false, length = 20)
@@ -63,6 +65,7 @@ public class Usuario {
     @Schema(description = "Dirección predeterminada de despacho", example = "Los Crisantemos, Edificio Norte, Depto 603, Cerrillos")
     private String direccionDefecto;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getContra() {
         return password;
     }
