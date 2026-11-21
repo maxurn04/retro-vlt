@@ -39,8 +39,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         String path = request.getRequestURI();
         boolean lecturaPermitida = "GET".equalsIgnoreCase(request.getMethod())
-                && !path.startsWith("/api/admin/productos/criticos")
-                && (path.startsWith("/api/admin/productos") || path.startsWith("/api/admin/ordenes"));
+                && !path.startsWith("/api/v1/admin/productos/criticos")
+                && (path.startsWith("/api/v1/admin/productos") || path.startsWith("/api/v1/admin/ordenes"));
 
         if ("VENDEDOR".equalsIgnoreCase(rol) && lecturaPermitida) {
             return true;

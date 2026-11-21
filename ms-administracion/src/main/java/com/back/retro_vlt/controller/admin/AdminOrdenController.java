@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin/ordenes")
+@RequestMapping("/api/v1/admin/ordenes")
 @Tag(name = "Admin - Órdenes & Boletas", description = "Gestión integral de boletas, compras y estados de despacho para administradores")
 public class AdminOrdenController {
 

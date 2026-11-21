@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin/usuarios")
+@RequestMapping("/api/v1/admin/usuarios")
 @Tag(name = "Admin - Usuarios (CRUD & Historial)", description = "CRUD de usuarios, roles de acceso e historial de compras para administradores")
 public class AdminUsuarioController {
 

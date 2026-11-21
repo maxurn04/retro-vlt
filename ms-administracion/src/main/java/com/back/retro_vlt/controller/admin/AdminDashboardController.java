@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/admin/dashboard")
+@RequestMapping("/api/v1/admin/dashboard")
 @Tag(name = "Admin - Dashboard", description = "Métricas y KPIs del panel administrativo en tiempo real")
 public class AdminDashboardController {
 

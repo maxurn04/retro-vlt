@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin/productos")
+@RequestMapping("/api/v1/admin/productos")
 @Tag(name = "Admin - Productos (CRUD & Críticos)", description = "CRUD completo y gestión de inventario/alertas de stock para administradores")
 public class AdminProductoController {
 

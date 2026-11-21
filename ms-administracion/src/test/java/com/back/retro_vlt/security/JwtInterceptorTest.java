@@ -36,13 +36,13 @@ class JwtInterceptorTest {
     @Test
     void peticionOptionsPasaSinToken() throws Exception {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertTrue(interceptor.preHandle(peticion("OPTIONS", "/api/admin/productos", null), response, new Object()));
+        assertTrue(interceptor.preHandle(peticion("OPTIONS", "/api/v1/admin/productos", null), response, new Object()));
     }
 
     @Test
     void sinTokenDevuelve401() throws Exception {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertFalse(interceptor.preHandle(peticion("GET", "/api/admin/productos", null), response, new Object()));
+        assertFalse(interceptor.preHandle(peticion("GET", "/api/v1/admin/productos", null), response, new Object()));
         assertEquals(401, response.getStatus());
     }
 
@@ -50,7 +50,7 @@ class JwtInterceptorTest {
     void tokenInvalidoDevuelve401() throws Exception {
         when(jwtUtil.validarToken("malo")).thenReturn(false);
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertFalse(interceptor.preHandle(peticion("GET", "/api/admin/productos", "malo"), response, new Object()));
+        assertFalse(interceptor.preHandle(peticion("GET", "/api/v1/admin/productos", "malo"), response, new Object()));
         assertEquals(401, response.getStatus());
     }
 
@@ -58,7 +58,7 @@ class JwtInterceptorTest {
     void tokenSinRolDevuelve403() throws Exception {
         simularToken(null);
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertFalse(interceptor.preHandle(peticion("GET", "/api/admin/productos", "tok"), response, new Object()));
+        assertFalse(interceptor.preHandle(peticion("GET", "/api/v1/admin/productos", "tok"), response, new Object()));
         assertEquals(403, response.getStatus());
     }
 
@@ -66,28 +66,28 @@ class JwtInterceptorTest {
     void adminAccedeATodo() throws Exception {
         simularToken("ADMIN");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertTrue(interceptor.preHandle(peticion("DELETE", "/api/admin/productos/1", "tok"), response, new Object()));
+        assertTrue(interceptor.preHandle(peticion("DELETE", "/api/v1/admin/productos/1", "tok"), response, new Object()));
     }
 
     @Test
     void vendedorPuedeVerProductos() throws Exception {
         simularToken("VENDEDOR");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertTrue(interceptor.preHandle(peticion("GET", "/api/admin/productos", "tok"), response, new Object()));
+        assertTrue(interceptor.preHandle(peticion("GET", "/api/v1/admin/productos", "tok"), response, new Object()));
     }
 
     @Test
     void vendedorPuedeVerDetalleDeOrden() throws Exception {
         simularToken("VENDEDOR");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertTrue(interceptor.preHandle(peticion("GET", "/api/admin/ordenes/1", "tok"), response, new Object()));
+        assertTrue(interceptor.preHandle(peticion("GET", "/api/v1/admin/ordenes/1", "tok"), response, new Object()));
     }
 
     @Test
     void vendedorNoPuedeVerElDashboard() throws Exception {
         simularToken("VENDEDOR");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertFalse(interceptor.preHandle(peticion("GET", "/api/admin/dashboard/metricas", "tok"), response, new Object()));
+        assertFalse(interceptor.preHandle(peticion("GET", "/api/v1/admin/dashboard/metricas", "tok"), response, new Object()));
         assertEquals(403, response.getStatus());
     }
 
@@ -95,7 +95,7 @@ class JwtInterceptorTest {
     void vendedorNoPuedeVerProductosCriticos() throws Exception {
         simularToken("VENDEDOR");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertFalse(interceptor.preHandle(peticion("GET", "/api/admin/productos/criticos", "tok"), response, new Object()));
+        assertFalse(interceptor.preHandle(peticion("GET", "/api/v1/admin/productos/criticos", "tok"), response, new Object()));
         assertEquals(403, response.getStatus());
     }
 
@@ -103,7 +103,7 @@ class JwtInterceptorTest {
     void vendedorNoPuedeEliminarProductos() throws Exception {
         simularToken("VENDEDOR");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertFalse(interceptor.preHandle(peticion("DELETE", "/api/admin/productos/1", "tok"), response, new Object()));
+        assertFalse(interceptor.preHandle(peticion("DELETE", "/api/v1/admin/productos/1", "tok"), response, new Object()));
         assertEquals(403, response.getStatus());
     }
 
@@ -111,7 +111,7 @@ class JwtInterceptorTest {
     void clienteNoPuedeAccederAlAdmin() throws Exception {
         simularToken("CLIENTE");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        assertFalse(interceptor.preHandle(peticion("GET", "/api/admin/productos", "tok"), response, new Object()));
+        assertFalse(interceptor.preHandle(peticion("GET", "/api/v1/admin/productos", "tok"), response, new Object()));
         assertEquals(403, response.getStatus());
     }
 }

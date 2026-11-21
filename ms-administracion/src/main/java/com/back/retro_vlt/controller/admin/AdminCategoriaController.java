@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin/categorias")
+@RequestMapping("/api/v1/admin/categorias")
 @Tag(name = "Admin - Categorías (CRUD)", description = "Operaciones CRUD para la gestión de categorías en el panel de administración")
 public class AdminCategoriaController {
 
