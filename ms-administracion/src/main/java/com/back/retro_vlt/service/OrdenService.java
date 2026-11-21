@@ -178,10 +178,11 @@ public class OrdenService {
         return ordenRepository.findByUsuarioIdOrderByFechaDesc(usuarioId);
     }
 
-    @Transactional
+        @Transactional
     public boolean eliminar(Long id) {
         Orden o = obtenerPorId(id);
         if (o != null) {
+            validarEliminacion(o);
             ordenRepository.delete(o);
             return true;
         }
@@ -192,6 +193,7 @@ public class OrdenService {
     public boolean eliminarPorNumero(String numeroOrden) {
         Orden o = obtenerPorNumeroOrden(numeroOrden);
         if (o != null) {
+            validarEliminacion(o);
             ordenRepository.delete(o);
             return true;
         }
@@ -205,12 +207,16 @@ public class OrdenService {
             return null;
         }
         if (datosNuevos.getEstado() != null) {
+            validarCambioEstado(orden.getEstado(), datosNuevos.getEstado());
             orden.setEstado(datosNuevos.getEstado());
         }
         if (datosNuevos.getMetodoPago() != null) {
             orden.setMetodoPago(datosNuevos.getMetodoPago());
         }
         if (datosNuevos.getTotal() != null) {
+            if (datosNuevos.getTotal() < 0) {
+                throw new IllegalArgumentException("El total de la orden no puede ser negativo");
+            }
             orden.setTotal(datosNuevos.getTotal());
         }
         if (datosNuevos.getCalle() != null) {
@@ -229,5 +235,31 @@ public class OrdenService {
             orden.setIndicaciones(datosNuevos.getIndicaciones());
         }
         return ordenRepository.save(orden);
+    }
+
+    private static final java.util.Map<String, java.util.Set<String>> TRANSICIONES = java.util.Map.of(
+            "PENDIENTE_PAGO", java.util.Set.of("PAGADO", "FALLIDO", "CANCELADO"),
+            "FALLIDO", java.util.Set.of("PENDIENTE_PAGO", "CANCELADO"),
+            "PAGADO", java.util.Set.of("EN_PREPARACION", "DESPACHADO", "CANCELADO"),
+            "EN_PREPARACION", java.util.Set.of("DESPACHADO", "CANCELADO"),
+            "DESPACHADO", java.util.Set.of("ENTREGADO"),
+            "ENTREGADO", java.util.Set.of(),
+            "CANCELADO", java.util.Set.of());
+
+    private void validarCambioEstado(String actual, String nuevo) {
+        String desde = actual == null ? "PENDIENTE_PAGO" : actual;
+        if (!TRANSICIONES.containsKey(nuevo)) {
+            throw new IllegalArgumentException("Estado inválido: " + nuevo);
+        }
+        if (!desde.equals(nuevo) && !TRANSICIONES.getOrDefault(desde, java.util.Set.of()).contains(nuevo)) {
+            throw new IllegalArgumentException("No se puede cambiar el estado de " + desde + " a " + nuevo);
+        }
+    }
+
+    private void validarEliminacion(Orden o) {
+        String e = o.getEstado();
+        if (!"PENDIENTE_PAGO".equals(e) && !"FALLIDO".equals(e) && !"CANCELADO".equals(e)) {
+            throw new IllegalArgumentException("No se puede eliminar una orden en estado " + e + ". Solo órdenes PENDIENTE_PAGO, FALLIDO o CANCELADO");
+        }
     }
 }

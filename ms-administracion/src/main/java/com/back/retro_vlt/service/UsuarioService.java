@@ -1,6 +1,7 @@
 package com.back.retro_vlt.service;
 
 import com.back.retro_vlt.model.Usuario;
+import com.back.retro_vlt.repository.OrdenRepository;
 import com.back.retro_vlt.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private OrdenRepository ordenRepository;
 
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
@@ -29,15 +33,25 @@ public class UsuarioService {
     }
 
     public Usuario registrar(Usuario usuario) {
-        if (usuario == null || usuario.getCorreo() == null) {
-            return null;
+        if (usuario == null || usuario.getCorreo() == null || usuario.getCorreo().isBlank()) {
+            throw new IllegalArgumentException("El correo es obligatorio");
+        }
+        if (usuario.getNombre() == null || usuario.getNombre().isBlank()) {
+            throw new IllegalArgumentException("El nombre es obligatorio");
+        }
+        if (!usuario.getCorreo().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            throw new IllegalArgumentException("El correo no tiene un formato válido");
+        }
+        if (usuario.getPassword() == null || usuario.getPassword().length() < 6) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres");
         }
         if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
-            return null;
+            throw new IllegalArgumentException("Ya existe un usuario con el correo " + usuario.getCorreo());
         }
         if (usuario.getRol() == null || usuario.getRol().isBlank()) {
             usuario.setRol("CLIENTE");
         }
+        usuario.setRol(validarRol(usuario.getRol()));
         return usuarioRepository.save(usuario);
     }
 
@@ -79,35 +93,63 @@ public class UsuarioService {
 
     public Usuario actualizar(Long id, Usuario usuario) {
         Usuario existente = obtenerPorId(id);
-        if (existente != null) {
-            existente.setNombre(usuario.getNombre());
-            existente.setApellidos(usuario.getApellidos());
-            existente.setTelefono(usuario.getTelefono());
-            existente.setDireccionDefecto(usuario.getDireccionDefecto());
-            if (usuario.getRun() != null) {
-                existente.setRun(usuario.getRun());
-            }
-            if (usuario.getFechaNacimiento() != null) {
-                existente.setFechaNacimiento(usuario.getFechaNacimiento());
-            }
-            if (usuario.getRegion() != null) {
-                existente.setRegion(usuario.getRegion());
-            }
-            if (usuario.getComuna() != null) {
-                existente.setComuna(usuario.getComuna());
-            }
-            if (usuario.getRol() != null && !usuario.getRol().isBlank()) {
-                existente.setRol(usuario.getRol());
-            }
-            if (usuario.getPassword() != null && !usuario.getPassword().isBlank()) {
-                existente.setPassword(usuario.getPassword());
-            }
-            return usuarioRepository.save(existente);
+        if (existente == null) {
+            return null;
         }
-        return null;
+        if (usuario.getNombre() == null || usuario.getNombre().isBlank()) {
+            throw new IllegalArgumentException("El nombre es obligatorio");
+        }
+        String nuevoRol = existente.getRol();
+        if (usuario.getRol() != null && !usuario.getRol().isBlank()) {
+            nuevoRol = validarRol(usuario.getRol());
+            if ("ADMIN".equals(existente.getRol()) && !"ADMIN".equals(nuevoRol)
+                    && usuarioRepository.countByRol("ADMIN") <= 1) {
+                throw new IllegalArgumentException("No se puede quitar el rol al último administrador");
+            }
+        }
+        if (usuario.getPassword() != null && !usuario.getPassword().isBlank() && usuario.getPassword().length() < 6) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres");
+        }
+
+        existente.setNombre(usuario.getNombre());
+        existente.setApellidos(usuario.getApellidos());
+        existente.setTelefono(usuario.getTelefono());
+        existente.setDireccionDefecto(usuario.getDireccionDefecto());
+        existente.setRol(nuevoRol);
+        if (usuario.getRun() != null) {
+            existente.setRun(usuario.getRun());
+        }
+        if (usuario.getFechaNacimiento() != null) {
+            existente.setFechaNacimiento(usuario.getFechaNacimiento());
+        }
+        if (usuario.getRegion() != null) {
+            existente.setRegion(usuario.getRegion());
+        }
+        if (usuario.getComuna() != null) {
+            existente.setComuna(usuario.getComuna());
+        }
+        if (usuario.getPassword() != null && !usuario.getPassword().isBlank()) {
+            existente.setPassword(usuario.getPassword());
+        }
+        return usuarioRepository.save(existente);
     }
 
     public void eliminar(Long id) {
+        Usuario u = obtenerPorId(id);
+        if (u != null && "ADMIN".equals(u.getRol()) && usuarioRepository.countByRol("ADMIN") <= 1) {
+            throw new IllegalArgumentException("No se puede eliminar al último administrador");
+        }
+        if (ordenRepository.existsByUsuarioId(id)) {
+            throw new IllegalArgumentException("No se puede eliminar un usuario que tiene órdenes asociadas");
+        }
         usuarioRepository.deleteById(id);
+    }
+
+    private String validarRol(String rol) {
+        String r = rol.trim().toUpperCase();
+        if (!r.equals("ADMIN") && !r.equals("VENDEDOR") && !r.equals("CLIENTE")) {
+            throw new IllegalArgumentException("Rol inválido: " + rol + ". Roles permitidos: ADMIN, VENDEDOR, CLIENTE");
+        }
+        return r;
     }
 }

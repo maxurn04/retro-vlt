@@ -18,4 +18,5 @@ public interface OrdenRepository extends JpaRepository<Orden, Long> {
 
     @Query("SELECT COALESCE(SUM(o.total), 0.0) FROM Orden o WHERE o.estado = 'PAGADO'")
     Double sumTotalIngresos();
+    boolean existsByUsuarioId(Long usuarioId);
 }

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface DetalleOrdenRepository extends JpaRepository<DetalleOrden, Long> {
     List<DetalleOrden> findByOrdenId(Long ordenId);
+    boolean existsByProductoId(Long productoId);
 }
