@@ -42,8 +42,8 @@ public class UsuarioService {
         if (!usuario.getCorreo().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
             throw new IllegalArgumentException("El correo no tiene un formato válido");
         }
-        if (usuario.getPassword() == null || usuario.getPassword().length() < 6) {
-            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres");
+        if (usuario.getPassword() == null || usuario.getPassword().length() < 4 || usuario.getPassword().length() > 10) {
+            throw new IllegalArgumentException("La contraseña debe tener entre 4 y 10 caracteres");
         }
         if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
             throw new IllegalArgumentException("Ya existe un usuario con el correo " + usuario.getCorreo());
@@ -107,8 +107,8 @@ public class UsuarioService {
                 throw new IllegalArgumentException("No se puede quitar el rol al último administrador");
             }
         }
-        if (usuario.getPassword() != null && !usuario.getPassword().isBlank() && usuario.getPassword().length() < 6) {
-            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres");
+        if (usuario.getPassword() != null && !usuario.getPassword().isBlank() && (usuario.getPassword().length() < 4 || usuario.getPassword().length() > 10)) {
+            throw new IllegalArgumentException("La contraseña debe tener entre 4 y 10 caracteres");
         }
 
         existente.setNombre(usuario.getNombre());

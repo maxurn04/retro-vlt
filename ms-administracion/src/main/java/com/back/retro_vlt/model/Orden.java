@@ -39,7 +39,7 @@ public class Orden {
 
     @Column(nullable = false, length = 20)
     @Schema(description = "Estado actual del flujo de la orden", example = "PAGADO", allowableValues = {"PENDIENTE_PAGO", "PAGADO", "FALLIDO", "EN_PREPARACION", "DESPACHADO", "ENTREGADO", "CANCELADO"})
-    private String estado = "PENDIENTE_PAGO";
+    private String estado;
 
     @Column(name = "metodo_pago", length = 50)
     @Schema(description = "Método o pasarela utilizada para el pago", example = "Tarjeta Débito Webpay")
