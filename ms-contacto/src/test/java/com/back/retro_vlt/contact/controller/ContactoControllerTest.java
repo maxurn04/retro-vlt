@@ -29,7 +29,7 @@ class ContactoControllerTest {
                 .mensaje("Consulta sobre stock de Nintendo 64")
                 .build();
 
-        mockMvc.perform(post("/api/contacto")
+        mockMvc.perform(post("/api/v1/contacto")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -46,7 +46,7 @@ class ContactoControllerTest {
                 .mensaje("Consulta")
                 .build();
 
-        mockMvc.perform(post("/api/contacto")
+        mockMvc.perform(post("/api/v1/contacto")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -62,7 +62,7 @@ class ContactoControllerTest {
                 .mensaje("Consulta")
                 .build();
 
-        mockMvc.perform(post("/api/contacto")
+        mockMvc.perform(post("/api/v1/contacto")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -78,7 +78,7 @@ class ContactoControllerTest {
                 .mensaje("Consulta")
                 .build();
 
-        mockMvc.perform(post("/api/contacto")
+        mockMvc.perform(post("/api/v1/contacto")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -94,7 +94,7 @@ class ContactoControllerTest {
                 .mensaje("")
                 .build();
 
-        mockMvc.perform(post("/api/contacto")
+        mockMvc.perform(post("/api/v1/contacto")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/contacto")
+@RequestMapping("/api/v1/contacto")
 @CrossOrigin(origins = "*")
 @Tag(name = "Tienda - Contacto", description = "Endpoints para el formulario de contacto")
 public class ContactoController {
