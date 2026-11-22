@@ -163,6 +163,13 @@ public class OrdenService {
                 o = ordenRepository.findByNumeroOrden("#" + limpio);
             }
         }
+        if (o == null) {
+            try {
+                Long id = Long.parseLong(limpio.replace("#", ""));
+                o = ordenRepository.findById(id).orElse(null);
+            } catch (NumberFormatException ignored) {
+            }
+        }
         return o;
     }
 

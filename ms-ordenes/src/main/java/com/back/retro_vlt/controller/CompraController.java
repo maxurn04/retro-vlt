@@ -6,6 +6,7 @@ import com.back.retro_vlt.model.Orden;
 import com.back.retro_vlt.service.OrdenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -260,6 +262,46 @@ public class CompraController {
         exito.put("metodoPago", orden.getMetodoPago());
         exito.put("mensaje", "Pago completado con exito. Se ha generado su boleta.");
         return ResponseEntity.ok(exito);
+    }
+
+    @GetMapping({"/ordenes", "/boletas"})
+    @Operation(
+        summary = "Listar todas las boletas y órdenes de compra",
+        description = "Retorna el listado completo de boletas/órdenes generadas en la tienda para gestión y panel de administración, ordenadas cronológicamente por fecha descendente."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Listado de todas las boletas obtenido exitosamente",
+            content = @Content(
+                mediaType = "application/json",
+                array = @ArraySchema(schema = @Schema(implementation = Orden.class))
+            )
+        )
+    })
+    public ResponseEntity<List<Orden>> listarTodasBoletas() {
+        return ResponseEntity.ok(ordenService.obtenerTodas());
+    }
+
+    @GetMapping({"/ordenes/usuario/{usuarioId}", "/boletas/usuario/{usuarioId}"})
+    @Operation(
+        summary = "Listar boletas y órdenes de un usuario específico",
+        description = "Retorna el listado histórico de boletas pertenecientes al usuario especificado por su identificador único (usuarioId)."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Listado de boletas del usuario obtenido exitosamente",
+            content = @Content(
+                mediaType = "application/json",
+                array = @ArraySchema(schema = @Schema(implementation = Orden.class))
+            )
+        )
+    })
+    public ResponseEntity<List<Orden>> listarBoletasPorUsuario(
+            @Parameter(description = "ID único del usuario", example = "2", required = true)
+            @PathVariable Long usuarioId) {
+        return ResponseEntity.ok(ordenService.obtenerPorUsuario(usuarioId));
     }
 
     @GetMapping({"/ordenes/{numeroOrden}", "/boletas/{numeroOrden}"})
