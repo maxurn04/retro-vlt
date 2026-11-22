@@ -131,7 +131,7 @@ public class AdminUsuarioController {
         return ResponseEntity.ok(Map.of("exito", true, "mensaje", "Usuario eliminado con éxito"));
     }
 
-    @GetMapping(value = {"/{id}/historial-compras", "/{id}/compras"})
+    @GetMapping("/{id}/historial-compras")
     @Operation(summary = "Obtener historial de compras de un usuario específico", description = "Retorna todas las órdenes generadas por un cliente en orden cronológico descendente.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Historial de compras obtenido exitosamente",

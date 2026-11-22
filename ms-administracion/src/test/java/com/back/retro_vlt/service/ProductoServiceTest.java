@@ -128,4 +128,12 @@ class ProductoServiceTest {
         productoService.eliminar(2L);
         verify(productoRepository).deleteById(2L);
     }
+    @Test
+    void asignaStockCriticoPorDefectoAlCrear() {
+        Producto p = productoValido();
+        p.setStockCritico(null);
+        when(productoRepository.save(p)).thenReturn(p);
+        productoService.guardar(p);
+        assertEquals(5, p.getStockCritico().intValue());
+    }
 }
