@@ -140,4 +140,11 @@ class UsuarioServiceTest {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(existente));
         assertThrows(IllegalArgumentException.class, () -> usuarioService.actualizar(1L, cambios));
     }
+
+    @Test
+    void noRegistraPasswordDemasiadoLarga() {
+        Usuario u = usuarioValido();
+        u.setPassword("12345678901");
+        assertThrows(IllegalArgumentException.class, () -> usuarioService.registrar(u));
+    }
 }

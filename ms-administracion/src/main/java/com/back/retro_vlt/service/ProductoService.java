@@ -57,6 +57,12 @@ public class ProductoService {
 
     public Producto guardar(Producto producto) {
         validar(producto, null);
+        if (producto.getStockCritico() == null) {
+            producto.setStockCritico(5);
+        }
+        if (producto.getEsOferta() == null) {
+            producto.setEsOferta(false);
+        }
         if (producto.getCategoria() != null && producto.getCategoria().getId() != null) {
             Categoria cat = categoriaRepository.findById(producto.getCategoria().getId()).orElse(null);
             producto.setCategoria(cat);

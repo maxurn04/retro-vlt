@@ -1,5 +1,10 @@
 package com.back.retro_vlt.contact.controller;
 
+import com.back.retro_vlt.contact.model.MensajeContacto;
+import com.back.retro_vlt.contact.service.ContactoService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 import com.back.retro_vlt.contact.dto.ContactoDto;
 import com.back.retro_vlt.contact.dto.ContactoResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +26,9 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 @Tag(name = "Tienda - Contacto", description = "Endpoints para el formulario de contacto")
 public class ContactoController {
+
+    @Autowired
+    private ContactoService contactoService;
 
     @PostMapping
     @Operation(
@@ -75,12 +83,21 @@ public class ContactoController {
             request.getMensaje() == null || request.getMensaje().isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Todos los campos (nombre, correo y mensaje) son requeridos"));
         }
-
+        contactoService.guardar(request);
         ContactoResponseDto resp = ContactoResponseDto.builder()
                 .exito(true)
                 .mensaje("Mensaje recibido correctamente. Nos pondremos en contacto contigo a la brevedad.")
                 .build();
 
         return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping
+    @Operation(
+        summary = "Listar mensajes de contacto recibidos",
+        description = "Devuelve los mensajes guardados, del más reciente al más antiguo. Requiere token JWT de un usuario ADMIN."
+    )
+    public ResponseEntity<List<MensajeContacto>> listarMensajes() {
+        return ResponseEntity.ok(contactoService.listar());
     }
 }

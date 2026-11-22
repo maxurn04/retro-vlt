@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import com.back.retro_vlt.contact.security.JwtUtil;
+import com.back.retro_vlt.contact.service.ContactoService;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -17,6 +20,12 @@ class ContactoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    
+    @MockitoBean
+    private ContactoService contactoService;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
