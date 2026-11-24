@@ -198,7 +198,7 @@ public class UsuarioController {
         usuarioData.put("apellidos", usuario.getApellidos() != null ? usuario.getApellidos() : "");
         usuarioData.put("correo", usuario.getCorreo());
         usuarioData.put("rol", usuario.getRol());
-        usuarioData.put("tipo", usuario.getRol());
+        usuarioData.put("tipo", resolverTipoFront(usuario.getRol()));
         usuarioData.put("direccionDefecto", usuario.getDireccionDefecto() != null ? usuario.getDireccionDefecto() : "");
         usuarioData.put("direccion", usuario.getDireccionDefecto() != null ? usuario.getDireccionDefecto() : "");
         usuarioData.put("telefono", usuario.getTelefono() != null ? usuario.getTelefono() : "");
@@ -211,7 +211,7 @@ public class UsuarioController {
         resp.put("apellidos", usuario.getApellidos() != null ? usuario.getApellidos() : "");
         resp.put("correo", usuario.getCorreo());
         resp.put("rol", usuario.getRol());
-        resp.put("tipo", usuario.getRol());
+        resp.put("tipo", resolverTipoFront(usuario.getRol()));
         resp.put("direccionDefecto", usuario.getDireccionDefecto() != null ? usuario.getDireccionDefecto() : "");
         resp.put("telefono", usuario.getTelefono() != null ? usuario.getTelefono() : "");
         return ResponseEntity.ok(resp);
@@ -341,7 +341,7 @@ public class UsuarioController {
         usuarioData.put("apellidos", usuario.getApellidos() != null ? usuario.getApellidos() : "");
         usuarioData.put("correo", usuario.getCorreo());
         usuarioData.put("rol", usuario.getRol());
-        usuarioData.put("tipo", usuario.getRol());
+        usuarioData.put("tipo", resolverTipoFront(usuario.getRol()));
         usuarioData.put("direccionDefecto", usuario.getDireccionDefecto() != null ? usuario.getDireccionDefecto() : "");
         usuarioData.put("direccion", usuario.getDireccionDefecto() != null ? usuario.getDireccionDefecto() : "");
         usuarioData.put("telefono", usuario.getTelefono() != null ? usuario.getTelefono() : "");
@@ -354,7 +354,7 @@ public class UsuarioController {
         resp.put("apellidos", usuario.getApellidos() != null ? usuario.getApellidos() : "");
         resp.put("correo", usuario.getCorreo());
         resp.put("rol", usuario.getRol());
-        resp.put("tipo", usuario.getRol());
+        resp.put("tipo", resolverTipoFront(usuario.getRol()));
         resp.put("direccionDefecto", usuario.getDireccionDefecto() != null ? usuario.getDireccionDefecto() : "");
         resp.put("telefono", usuario.getTelefono() != null ? usuario.getTelefono() : "");
         return ResponseEntity.ok(resp);
@@ -454,7 +454,7 @@ public class UsuarioController {
         usuarioData.put("apellidos", usuario.getApellidos() != null ? usuario.getApellidos() : "");
         usuarioData.put("correo", usuario.getCorreo());
         usuarioData.put("rol", usuario.getRol());
-        usuarioData.put("tipo", usuario.getRol());
+        usuarioData.put("tipo", resolverTipoFront(usuario.getRol()));
         usuarioData.put("direccionDefecto", usuario.getDireccionDefecto() != null ? usuario.getDireccionDefecto() : "");
         usuarioData.put("direccion", usuario.getDireccionDefecto() != null ? usuario.getDireccionDefecto() : "");
         usuarioData.put("telefono", usuario.getTelefono() != null ? usuario.getTelefono() : "");
@@ -466,6 +466,20 @@ public class UsuarioController {
         resp.put("nombre", usuario.getNombre());
         resp.put("correo", usuario.getCorreo());
         resp.put("rol", usuario.getRol());
+        resp.put("tipo", resolverTipoFront(usuario.getRol()));
         return ResponseEntity.ok(resp);
+    }
+
+    private String resolverTipoFront(String rol) {
+        if (rol == null) {
+            return "Cliente";
+        }
+        if ("ADMIN".equalsIgnoreCase(rol)) {
+            return "Administrador";
+        }
+        if ("VENDEDOR".equalsIgnoreCase(rol)) {
+            return "Vendedor";
+        }
+        return "Cliente";
     }
 }
