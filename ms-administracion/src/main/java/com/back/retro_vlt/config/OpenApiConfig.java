@@ -21,7 +21,7 @@ public class OpenApiConfig {
                         .description("Microservicio de Administración para gestión de catálogo de productos, categorías, administración de usuarios, auditoría de órdenes y KPIs del dashboard administrativo.")
                         .contact(new Contact()
                                 .name("Duoc UC - DSY1104")
-                                .email("admin@tienda.cl")))
+                                .email("admin@gmail.com")))
                 .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("BearerAuth", new SecurityScheme()

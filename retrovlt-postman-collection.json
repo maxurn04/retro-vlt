@@ -144,7 +144,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"correo\": \"admin@tienda.cl\",\n  \"password\": \"admin123\"\n}"
+              "raw": "{\n  \"correo\": \"admin@gmail.com\",\n  \"password\": \"admin\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/login",

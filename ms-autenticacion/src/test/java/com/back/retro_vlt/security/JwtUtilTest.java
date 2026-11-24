@@ -2,6 +2,7 @@ package com.back.retro_vlt.security;
 
 import com.back.retro_vlt.model.Usuario;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -18,6 +19,7 @@ class JwtUtilTest {
     }
 
     @Test
+    @DisplayName("Generar y validar token JWT correctamente")
     void testGenerarYValidarToken() {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
@@ -27,7 +29,7 @@ class JwtUtilTest {
 
         String token = jwtUtil.generarToken(usuario);
         assertNotNull(token);
-        assertTrue(token.split("\\.").length == 3);
+        assertEquals(3, token.split("\\.").length);
 
         boolean valido = jwtUtil.validarToken(token);
         assertTrue(valido);
@@ -37,6 +39,7 @@ class JwtUtilTest {
     }
 
     @Test
+    @DisplayName("Manejo de token inválido o nulo")
     void testValidarTokenInvalido() {
         assertFalse(jwtUtil.validarToken(null));
         assertFalse(jwtUtil.validarToken(""));
@@ -45,6 +48,7 @@ class JwtUtilTest {
     }
 
     @Test
+    @DisplayName("Obtener payload y verificación de claims")
     void testObtenerPayload() {
         Usuario usuario = new Usuario();
         usuario.setId(42L);

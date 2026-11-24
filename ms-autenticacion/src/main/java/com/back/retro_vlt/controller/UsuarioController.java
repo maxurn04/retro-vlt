@@ -86,7 +86,7 @@ public class UsuarioController {
                                     @ExampleObject(
                                             name = "Ejemplo Usuario Admin",
                                             summary = "Registro de usuario con rol ADMIN",
-                                            value = "{\n  \"run\": \"11222333-4\",\n  \"nombre\": \"Administrador\",\n  \"apellidos\": \"RetroVLT\",\n  \"correo\": \"admin@gmail.com\",\n  \"password\": \"admin123\",\n  \"rol\": \"ADMIN\",\n  \"telefono\": \"+56911223344\",\n  \"fechaNacimiento\": \"1990-01-15\",\n  \"region\": \"Región Metropolitana de Santiago\",\n  \"comuna\": \"Santiago\",\n  \"direccionDefecto\": \"Av. Providencia 1234\"\n}"
+                                            value = "{\n  \"run\": \"11222333-4\",\n  \"nombre\": \"Administrador\",\n  \"apellidos\": \"RetroVLT\",\n  \"correo\": \"admin@gmail.com\",\n  \"password\": \"admin\",\n  \"rol\": \"ADMIN\",\n  \"telefono\": \"+56911223344\",\n  \"fechaNacimiento\": \"1990-01-15\",\n  \"region\": \"Región Metropolitana de Santiago\",\n  \"comuna\": \"Santiago\",\n  \"direccionDefecto\": \"Av. Providencia 1234\"\n}"
                                     )
                             }
                     )
@@ -165,7 +165,7 @@ public class UsuarioController {
                                     @ExampleObject(
                                             name = "Credenciales Admin",
                                             summary = "Login como Administrador del sistema",
-                                            value = "{\n  \"correo\": \"admin@gmail.com\",\n  \"password\": \"admin123\"\n}"
+                                            value = "{\n  \"correo\": \"admin@gmail.com\",\n  \"password\": \"admin\"\n}"
                                     ),
                                     @ExampleObject(
                                             name = "Credenciales Cliente Duoc",

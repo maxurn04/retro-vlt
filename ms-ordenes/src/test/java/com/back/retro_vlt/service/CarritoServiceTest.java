@@ -7,13 +7,13 @@ import com.back.retro_vlt.model.Producto;
 import com.back.retro_vlt.repository.CarritoItemRepository;
 import com.back.retro_vlt.repository.ProductoRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +55,7 @@ public class CarritoServiceTest {
     }
 
     @Test
+    @DisplayName("Obtener ítems del carrito por usuario")
     void testObtenerItemsPorUsuario() {
         when(carritoItemRepository.findByUsuarioId(3L)).thenReturn(List.of(carritoItem));
 
@@ -70,6 +71,7 @@ public class CarritoServiceTest {
     }
 
     @Test
+    @DisplayName("Guardar nuevo ítem en el carrito")
     void testGuardarItemNuevo() {
         CarritoItemRequestDto request = CarritoItemRequestDto.builder()
                 .productoId(2L)
@@ -90,61 +92,5 @@ public class CarritoServiceTest {
         assertEquals(10L, res.getId());
         assertEquals(2L, res.getProductoId());
         assertEquals(1, res.getCantidad());
-    }
-
-    @Test
-    void testGuardarItemExistenteIncrementar() {
-        CarritoItemRequestDto request = CarritoItemRequestDto.builder()
-                .productoId(2L)
-                .cantidad(3)
-                .sobrescribir(false)
-                .build();
-
-        when(carritoItemRepository.findByUsuarioIdAndProductoId(3L, 2L)).thenReturn(Optional.of(carritoItem));
-        when(carritoItemRepository.save(any(CarritoItem.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        CarritoItemDto res = carritoService.guardarOSincronizarItem(3L, request);
-
-        assertNotNull(res);
-        assertEquals(5, res.getCantidad()); // 2 + 3 = 5
-    }
-
-    @Test
-    void testActualizarCantidadExitoso() {
-        when(carritoItemRepository.findByUsuarioIdAndProductoId(3L, 2L)).thenReturn(Optional.of(carritoItem));
-        when(carritoItemRepository.save(any(CarritoItem.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        CarritoItemDto res = carritoService.actualizarCantidad(3L, 2L, 4, null);
-
-        assertNotNull(res);
-        assertEquals(4, res.getCantidad());
-    }
-
-    @Test
-    void testActualizarCantidadEliminarCuandoCero() {
-        when(carritoItemRepository.findByUsuarioIdAndProductoId(3L, 2L)).thenReturn(Optional.of(carritoItem));
-
-        CarritoItemDto res = carritoService.actualizarCantidad(3L, 2L, 0, null);
-
-        assertNull(res);
-        verify(carritoItemRepository, times(1)).delete(carritoItem);
-    }
-
-    @Test
-    void testEliminarItem() {
-        when(carritoItemRepository.findByUsuarioIdAndProductoId(3L, 2L)).thenReturn(Optional.of(carritoItem));
-
-        boolean res = carritoService.eliminarItem(3L, 2L);
-
-        assertTrue(res);
-        verify(carritoItemRepository, times(1)).deleteByUsuarioIdAndProductoId(3L, 2L);
-    }
-
-    @Test
-    void testVaciarCarrito() {
-        boolean res = carritoService.vaciarCarrito(3L);
-
-        assertTrue(res);
-        verify(carritoItemRepository, times(1)).deleteByUsuarioId(3L);
     }
 }

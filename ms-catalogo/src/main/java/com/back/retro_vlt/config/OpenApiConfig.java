@@ -13,9 +13,9 @@ public class OpenApiConfig {
     public OpenAPI configuracionOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API REST Catálogo y Tienda Retro-VLT")
+                        .title("Catálogo y Tienda Retro Vault")
                         .version("1.0.0")
-                        .description("Microservicio de Catálogo de Productos, Categorías y Blog para la tienda pública Retro-VLT.")
+                        .description("Microservicio de Catálogo de Productos, Categorías y Blog para la tienda pública Retro Vault.")
                         .contact(new Contact()
                                 .name("Duoc UC - DSY1104")
                                 .email("soporte@retrovlt.cl")));

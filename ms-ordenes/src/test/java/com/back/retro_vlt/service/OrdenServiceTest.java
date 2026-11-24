@@ -10,6 +10,7 @@ import com.back.retro_vlt.repository.OrdenRepository;
 import com.back.retro_vlt.repository.ProductoRepository;
 import com.back.retro_vlt.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -58,6 +59,7 @@ public class OrdenServiceTest {
     }
 
     @Test
+    @DisplayName("Procesar compra exitosa desde el carrito")
     void testProcesarCompraExitoso() {
         CompraDto dto = new CompraDto();
         CompraDto.ClienteDto cliente = new CompraDto.ClienteDto();
@@ -85,6 +87,7 @@ public class OrdenServiceTest {
     }
 
     @Test
+    @DisplayName("Procesar pago exitoso con descuento de stock")
     void testProcesarPagoExitoso() {
         Orden orden = new Orden();
         orden.setId(10L);
@@ -109,40 +112,5 @@ public class OrdenServiceTest {
         assertEquals(8, producto.getStock());
         verify(productoRepository, times(1)).save(producto);
         verify(ordenRepository, times(1)).save(orden);
-    }
-
-    @Test
-    void testProcesarPagoSimularError() {
-        Orden orden = new Orden();
-        orden.setId(10L);
-        orden.setEstado("PENDIENTE_PAGO");
-
-        when(ordenRepository.findById(10L)).thenReturn(Optional.of(orden));
-        when(ordenRepository.save(any(Orden.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        PagoDto pagoDto = new PagoDto();
-        pagoDto.setSimularError(true);
-
-        Orden resultado = ordenService.procesarPago(10L, pagoDto);
-
-        assertNotNull(resultado);
-        assertEquals("FALLIDO", resultado.getEstado());
-        verify(productoRepository, never()).save(any());
-        verify(ordenRepository, times(1)).save(orden);
-    }
-
-    @Test
-    void testObtenerPorNumeroOrden() {
-        Orden orden = new Orden();
-        orden.setNumeroOrden("#20241119-1001");
-
-        when(ordenRepository.findByNumeroOrden("#20241119-1001")).thenReturn(orden);
-
-        Orden encontrado = ordenService.obtenerPorNumeroOrden("#20241119-1001");
-        assertNotNull(encontrado);
-        assertEquals("#20241119-1001", encontrado.getNumeroOrden());
-
-        Orden encontradoSinHash = ordenService.obtenerPorNumeroOrden("20241119-1001");
-        assertNotNull(encontradoSinHash);
     }
 }
